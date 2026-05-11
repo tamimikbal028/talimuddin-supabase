@@ -8,7 +8,10 @@ import { authHooks } from "@/hooks/useAuth";
 
 // Zod Schema for Login
 const loginSchema = z.object({
-  identifier: z.string().min(1, "Phone Number or Username is required"),
+  email: z
+    .string()
+    .min(1, "Email is required")
+    .regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Invalid email address"),
   password: z.string().min(1, "Password is required"),
   rememberMe: z.boolean().optional(),
 });
@@ -31,7 +34,7 @@ const Login = () => {
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      identifier: "",
+      email: "",
       password: "",
       rememberMe: false,
     },
@@ -42,7 +45,7 @@ const Login = () => {
     const rememberedIdentifier = localStorage.getItem("rememberedIdentifier");
     if (rememberedIdentifier) {
       reset({
-        identifier: rememberedIdentifier,
+        email: rememberedIdentifier,
         password: "",
         rememberMe: true,
       });
@@ -55,13 +58,13 @@ const Login = () => {
   const onSubmit = (data: LoginFormData) => {
     // Remember Me: handle before logging in
     if (data.rememberMe) {
-      localStorage.setItem("rememberedIdentifier", data.identifier);
+      localStorage.setItem("rememberedIdentifier", data.email);
     } else {
       localStorage.removeItem("rememberedIdentifier");
     }
 
     login({
-      credentials: { identifier: data.identifier, password: data.password },
+      credentials: { email: data.email, password: data.password },
     });
   };
 
@@ -82,29 +85,29 @@ const Login = () => {
         <div className="w-full max-w-[400px] rounded-lg border bg-white p-8 shadow-lg">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div className="space-y-4">
-              {/* Identifier Field */}
+              {/* Email Field */}
               <div>
                 <label
-                  htmlFor="identifier"
+                  htmlFor="email"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Phone Number or Username
+                  Email Address
                 </label>
                 <input
-                  id="identifier"
-                  type="text"
+                  id="email"
+                  type="email"
                   autoFocus // Default focus here on page load
-                  {...register("identifier")}
+                  {...register("email")}
                   className={`mt-1 w-full rounded-lg border px-3 py-2 transition-colors focus:ring-2 focus:outline-none ${
-                    errors.identifier
+                    errors.email
                       ? "border-red-500 focus:ring-red-500"
                       : "border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                   }`}
-                  placeholder="Enter your phone number or username"
+                  placeholder="Enter your email address"
                 />
-                {errors.identifier && (
+                {errors.email && (
                   <p className="mt-1 text-sm text-red-500">
-                    {errors.identifier.message}
+                    {errors.email.message}
                   </p>
                 )}
               </div>

@@ -13,6 +13,11 @@ const registerSchema = z.object({
     .min(3, "Full Name must be at least 3 characters")
     .max(50, "Full Name must be at most 50 characters"),
 
+  email: z
+    .string()
+    .min(1, "Email is required")
+    .regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Invalid email address"),
+
   phoneNumber: z
     .string()
     .regex(/^[0-9]{11}$/, "Phone number must be 11 digits"),
@@ -48,6 +53,7 @@ const Register = () => {
     resolver: zodResolver(registerSchema),
     defaultValues: {
       fullName: "",
+      email: "",
       phoneNumber: "",
       userName: "",
       password: "",
@@ -101,6 +107,32 @@ const Register = () => {
                 {errors.fullName && (
                   <p className="mt-1 text-sm text-red-500">
                     {errors.fullName.message}
+                  </p>
+                )}
+              </div>
+
+              {/* Email Field */}
+              <div>
+                <label
+                  htmlFor="email"
+                  className="mb-2 block text-sm font-medium text-gray-700"
+                >
+                  Email Address
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  {...registerField("email")}
+                  className={`w-full rounded-lg border px-3 py-2 transition-colors focus:ring-2 focus:outline-none ${
+                    errors.email
+                      ? "border-red-500 focus:ring-red-500"
+                      : "border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                  }`}
+                  placeholder="Enter your email address"
+                />
+                {errors.email && (
+                  <p className="mt-1 text-sm text-red-500">
+                    {errors.email.message}
                   </p>
                 )}
               </div>

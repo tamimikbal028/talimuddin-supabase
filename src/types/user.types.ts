@@ -51,25 +51,12 @@ export interface User {
   coverImage?: string;
   bio?: string;
   gender?: Gender;
-  institution?: {
-    _id: string;
-    name: string;
-  };
-
-  // Stats (from backend model)
-  connectionsCount: number;
-  publicFilesCount: number;
 
   // User Type
   userType: UserType;
 
   // Status & Settings
   accountStatus: AccountStatus;
-  bannedAt?: string;
-  bannedBy?: string;
-  bannedReason?: string;
-  deletedAt?: string;
-  restrictions: UserRestrictions;
 
   // Timestamps
   createdAt: string;
@@ -90,13 +77,14 @@ export interface AuthResponse {
 
 // Login Types
 export interface LoginCredentials {
-  identifier?: string;
+  email: string;
   password: string;
 }
 
 // Register Types
 export interface RegisterData {
   fullName: string;
+  email: string;
   phoneNumber: string;
   userName: string;
   password: string;

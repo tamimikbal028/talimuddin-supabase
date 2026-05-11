@@ -2,13 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import authService from "@/services/auth.service";
-import type {
-  LoginCredentials,
-  AuthState,
-  ApiError,
-  RegisterData,
-} from "@/types";
-import type { AxiosError } from "axios";
+import type { LoginCredentials, AuthState, RegisterData } from "@/types";
 import { USER_TYPES } from "@/constants";
 
 // Query Keys
@@ -62,8 +56,8 @@ const useRegister = () => {
       toast.success(response.message);
       navigate("/");
     },
-    onError: (error: AxiosError<ApiError>) => {
-      toast.error(error?.response?.data?.message ?? "Registration failed");
+    onError: (error: Error) => {
+      toast.error(error?.message ?? "Registration failed");
     },
   });
 };
@@ -81,8 +75,8 @@ const useLogin = () => {
       toast.success(response.message);
       navigate("/");
     },
-    onError: (error: AxiosError<ApiError>) => {
-      toast.error(error?.response?.data?.message ?? "Internal server error");
+    onError: (error: Error) => {
+      toast.error(error?.message ?? "Invalid login credentials");
     },
   });
 };
@@ -100,11 +94,9 @@ const useLogout = () => {
       toast.success(response?.message);
       navigate("/login");
     },
-    onError: (error: AxiosError<ApiError>) => {
+    onError: (error: Error) => {
       queryClient.setQueryData(AUTH_KEYS.currentUser, null);
-      toast.error(
-        error?.response?.data?.message ?? "Logout failed, signed out locally."
-      );
+      toast.error(error?.message ?? "Logout failed, signed out locally.");
       navigate("/login");
     },
   });
@@ -118,8 +110,8 @@ const useChangePassword = () => {
     onSuccess: (response) => {
       toast.success(response.message);
     },
-    onError: (error: AxiosError<ApiError>) => {
-      toast.error(error?.response?.data?.message ?? "Change password failed");
+    onError: (error: Error) => {
+      toast.error(error?.message ?? "Change password failed");
     },
   });
 };

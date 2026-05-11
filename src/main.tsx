@@ -5,8 +5,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "@/index.css";
 import App from "@/App";
 import { Toaster } from "sonner";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/react";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -30,8 +28,6 @@ createRoot(document.getElementById("root")!).render(
           }}
         />
         <App />
-        <Analytics />
-        <SpeedInsights />
       </QueryClientProvider>
     </BrowserRouter>
   </StrictMode>
