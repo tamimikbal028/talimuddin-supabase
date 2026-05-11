@@ -120,23 +120,15 @@ const GeneralTab = ({ user }: GeneralTabProps) => {
           {/* Email */}
           <div>
             <label className="mb-1 block text-sm font-medium text-gray-700">
-              Email Address (Optional)
+              Email Address
             </label>
             <input
               type="email"
               {...register("email")}
-              className={`w-full rounded-lg border px-3 py-2 focus:ring-2 focus:outline-none ${
-                errors.email
-                  ? "border-red-300 focus:ring-red-500"
-                  : "border-gray-300 focus:ring-blue-500"
-              }`}
+              disabled
+              className="w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-gray-500 cursor-not-allowed focus:outline-none"
               placeholder="your.email@example.com"
             />
-            {errors.email && (
-              <p className="mt-1 text-sm text-red-500">
-                {errors.email.message}
-              </p>
-            )}
           </div>
 
           {/* Gender */}

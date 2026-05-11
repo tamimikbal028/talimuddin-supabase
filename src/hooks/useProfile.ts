@@ -2,8 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { profileService } from "@/services/profile.service";
-import type { UpdateGeneralData, ApiError } from "@/types";
-import type { AxiosError } from "axios";
+import type { UpdateGeneralData } from "@/types";
 import { useParams } from "react-router-dom";
 import { AUTH_KEYS } from "@/hooks/useAuth";
 
@@ -47,8 +46,8 @@ const useUpdateGeneral = () => {
       navigate(`/profile/${response.data.user.userName}`);
       toast.success(response.message);
     },
-    onError: (error: AxiosError<ApiError>) => {
-      toast.error(error?.response?.data?.message ?? "Update General failed");
+    onError: (error: Error) => {
+      toast.error(error?.message ?? "Update General failed");
     },
   });
 };
@@ -65,8 +64,8 @@ const useUpdateAvatar = () => {
       toast.success(response.message);
       navigate(`/profile/${response.data.user.userName}`);
     },
-    onError: (error: AxiosError<ApiError>) => {
-      toast.error(error?.response?.data?.message ?? "Update Avatar failed");
+    onError: (error: Error) => {
+      toast.error(error?.message ?? "Update Avatar failed");
     },
   });
 };
@@ -84,10 +83,8 @@ const useUpdateCoverImage = () => {
       toast.success(response.message);
       navigate(`/profile/${response.data.user.userName}`);
     },
-    onError: (error: AxiosError<ApiError>) => {
-      toast.error(
-        error?.response?.data?.message ?? "Update Cover Image failed"
-      );
+    onError: (error: Error) => {
+      toast.error(error?.message ?? "Update Cover Image failed");
     },
   });
 };
